@@ -1,101 +1,81 @@
-let game = {
-  money: 0,
-  perClick: 1,
-  auto: 0,
-  rebirths: 0
-};
-
-// mejoras (se pueden ampliar fácil)
-let mejoras = [
-  { nombre: "Cursor", coste: 10, tipo: "auto", valor: 1 },
-  { nombre: "Fábrica", coste: 100, tipo: "auto", valor: 5 },
-  { nombre: "Click Pro", coste: 50, tipo: "click", valor: 2 },
-];
-
-const moneyEl = document.getElementById("money");
-const perClickEl = document.getElementById("perClick");
-const autoEl = document.getElementById("auto");
-const rebirthEl = document.getElementById("rebirths");
-const shopEl = document.getElementById("shop");
-
-// click manual
-document.getElementById("clickBtn").onclick = () => {
-  game.money += game.perClick * (1 + game.rebirths * 0.5);
-  update();
-};
-
-// auto generación
-setInterval(() => {
-  game.money += game.auto;
-  update();
-}, 1000);
-
-// tienda
-function renderShop() {
-  shopEl.innerHTML = "";
-
-  mejoras.forEach((m, i) => {
-    let btn = document.createElement("button");
-    btn.textContent = `${m.nombre} (+${m.valor}) - ${m.coste}`;
-    
-    btn.onclick = () => comprar(i);
-
-    shopEl.appendChild(btn);
-  });
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #0b0f1a, #020617);
+  color: white;
+  font-family: Arial;
 }
 
-function comprar(i) {
-  let m = mejoras[i];
-
-  if (game.money >= m.coste) {
-    game.money -= m.coste;
-
-    if (m.tipo === "auto") game.auto += m.valor;
-    if (m.tipo === "click") game.perClick += m.valor;
-
-    // sube el precio (esto engancha bastante)
-    m.coste = Math.floor(m.coste * 1.5);
-
-    update();
-    renderShop();
-  }
+.container {
+  text-align: center;
+  padding: 20px;
 }
 
-// rebirth
-function rebirth() {
-  if (game.money >= 1000) {
-    game.money = 0;
-    game.perClick = 1;
-    game.auto = 0;
-    game.rebirths++;
-
-    mejoras.forEach(m => m.coste = Math.floor(m.coste / 2));
-
-    update();
-  }
+/* BOTONES PRO */
+button {
+  padding: 12px;
+  margin: 8px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #1e293b;
+  color: white;
+  transition: all 0.2s;
 }
 
-// UI
-function update() {
-  moneyEl.textContent = Math.floor(game.money);
-  perClickEl.textContent = game.perClick;
-  autoEl.textContent = game.auto;
-  rebirthEl.textContent = game.rebirths;
-
-  guardar();
+button:hover {
+  transform: scale(1.1);
+  background: #334155;
 }
 
-// guardado (clave para enganchar)
-function guardar() {
-  localStorage.setItem("clickerSave", JSON.stringify(game));
+.btn-main {
+  font-size: 30px;
+  background: gold;
+  color: black;
 }
 
-// cargar partida
-function cargar() {
-  let save = JSON.parse(localStorage.getItem("clickerSave"));
-  if (save) game = save;
+/* PANEL */
+.panel {
+  margin-top: 20px;
 }
 
-cargar();
-renderShop();
-update();
+/* MODALES */
+.modal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #020617;
+  padding: 30px;
+  border: 2px solid #334155;
+  border-radius: 10px;
+}
+
+/* RAREZAS */
+.comun { color: gray; }
+.epico { color: violet; }
+.legendario { color: gold; }
+.mitico { color: cyan; }
+
+.hidden { display: none; }
+
+/* ANIMACIÓN COFRE */
+#lootAnim {
+  font-size: 40px;
+  animation: spin 0.5s infinite;
+}
+
+@keyframes spin {
+  0% {transform: rotate(0);}
+  100% {transform: rotate(360deg);}
+}
+
+/* SHAKE */
+@keyframes shake {
+  0% {transform: translate(0);}
+  50% {transform: translate(10px);}
+  100% {transform: translate(0);}
+}
+
+.shake {
+  animation: shake 0.2s infinite;
+}
