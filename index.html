@@ -2,22 +2,53 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Pro Clicker</title>
+  <title>The Ultimate Clicker</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="container">
+
 <h1>💰 <span id="money">0</span></h1>
-<p>⚡ Por click: <span id="perClick">1</span></p>
-<p>🤖 Auto: <span id="auto">0</span>/s</p>
-<p>🔁 Rebirths: <span id="rebirths">0</span></p>
 
-<button id="clickBtn">CLICK</button>
+<div class="stats">
+  <p>⚡ <span id="perClick">1</span></p>
+  <p>🤖 <span id="auto">0</span>/s</p>
+  <p>👆 <span id="clicks">0</span></p>
+</div>
 
-<h2>🏪 Tienda</h2>
-<div id="shop"></div>
+<button id="clickBtn" class="btn-main">CLICK</button>
 
-<button onclick="rebirth()">🔁 REBIRTH (1000)</button>
+<div class="panel">
+  <button onclick="abrirCofre()">📦 Cofre</button>
+  <button onclick="toggleSkills()">🧠 Habilidades</button>
+  <button onclick="toggleRates()">📊 Probabilidades</button>
+</div>
+
+<!-- HABILIDADES -->
+<div id="skills" class="modal hidden">
+  <h2>Árbol de habilidades</h2>
+  <button onclick="skill('click')">⚡ x2 Click</button>
+  <button onclick="skill('auto')">🤖 x2 Auto</button>
+</div>
+
+<!-- PROBABILIDADES -->
+<div id="rates" class="modal hidden">
+  <h2>Probabilidades</h2>
+  <p class="comun">⚪ Común → 60%</p>
+  <p class="epico">🟣 Épico → 30%</p>
+  <p class="legendario">🟡 Legendario → 9.5%</p>
+  <p class="mitico">🌈 Mítico → 0.5%</p>
+</div>
+
+<!-- COFRE -->
+<div id="lootBox" class="modal hidden">
+  <div id="lootAnim">🎰</div>
+</div>
+
+<p id="loot"></p>
+
+</div>
 
 <script src="script.js"></script>
 </body>
